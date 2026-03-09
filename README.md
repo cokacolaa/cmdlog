@@ -1,5 +1,5 @@
 ```sh 
-curl -Lso- https://raw.githubusercontent.com/nhanhoadocs/ghichep-cmdlog/master/cmdlog.sh | bash
+curl -Lso- https://raw.githubusercontent.com/cokacolaa/cmdlog/refs/heads/main/cmdlog.sh | bash
 ```
 
 Các phiên bản OS hỗ trợ 
