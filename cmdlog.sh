@@ -1,7 +1,5 @@
 #!/bin/bash
-# CMD log version 2 2019-10-05
-# CanhDX NhanHoa Cloud Team 
-# canhdx@nhanhoa.com.vn && uncelvel@gmail.com
+
 
 # Variable
 set -e
@@ -46,6 +44,8 @@ elif cat /etc/*release | grep ^NAME | grep Ubuntu > /dev/null 2>&1; then
         OS_VER="Ubuntu18"
     elif [ $(lsb_release -c | grep Codename | awk '{print $2}') == 'focal' ] ;then 
         OS_VER="Ubuntu20"
+    elif [ $(lsb_release -c | grep Codename | awk '{print $2}') == 'focal' ] ;then 
+        OS_VER="Ubuntu24"
     fi 
 else
     echo "Script doesn't support or verify this OS type/version"
@@ -82,7 +82,7 @@ if [[ -d "$HOME" ]] && [[ -f "$HOME/.bashrc" ]]; then
     echo 'export HISTTIMEFORMAT="%d/%m/%y %T "' >> ~/.bashrc
     source ~/.bashrc
 elif [[ -d "$HOME" ]] && [[ ! -f "$HOME/.bashrc" ]]; then 
-    curl -o ~/.bashrc  https://raw.githubusercontent.com/nhanhoadocs/ghichep-cmdlog/master/config/"$OS".bashrc > /dev/null 2>&1
+    curl -o ~/.bashrc  https://raw.githubusercontent.com/cokacolaa/cmdlog/refs/heads/main/config/"$OS".bashrc > /dev/null 2>&1
 else 
     echo "Please check config \$HOME for this account"
 fi 
@@ -108,14 +108,14 @@ SKEL=/etc/skel
 CREATE_MAIL_SPOOL=yes""" > /etc/default/useradd
 
     mkdir -p /etc/skel
-    curl -o /etc/skel/.bashrc  https://raw.githubusercontent.com/nhanhoadocs/ghichep-cmdlog/master/config/"$OS".bashrc > /dev/null 2>&1
-    curl -o /etc/skel/.profile  https://raw.githubusercontent.com/nhanhoadocs/ghichep-cmdlog/master/config/"$OS".profile > /dev/null 2>&1
+    curl -o /etc/skel/.bashrc  https://raw.githubusercontent.com/cokacolaa/cmdlog/refs/heads/main/config/"$OS".bashrc > /dev/null 2>&1
+    curl -o /etc/skel/.profile  https://raw.githubusercontent.com/cokacolaa/cmdlog/refs/heads/main/config/"$OS".profile > /dev/null 2>&1
 fi 
 
 # Config rsyslog 
 echo "Config rsyslog"
 mv /etc/rsyslog.{conf,conf.bk}
-curl -o /etc/rsyslog.conf https://raw.githubusercontent.com/nhanhoadocs/ghichep-cmdlog/master/config/"$OS_VER"_rsyslog.cnf > /dev/null 2>&1
+curl -o /etc/rsyslog.conf https://raw.githubusercontent.com/cokacolaa/cmdlog/refs/heads/main/config/"$OS_VER"_rsyslog.cnf > /dev/null 2>&1
 systemctl restart rsyslog.service > /dev/null 2>&1 || service rsyslog restart > /dev/null 2>&1
 source ~/.bashrc
 
