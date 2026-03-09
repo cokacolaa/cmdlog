@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# CMD log
 
 # Variable
 set -e
@@ -44,8 +44,11 @@ elif cat /etc/*release | grep ^NAME | grep Ubuntu > /dev/null 2>&1; then
         OS_VER="Ubuntu18"
     elif [ $(lsb_release -c | grep Codename | awk '{print $2}') == 'focal' ] ;then 
         OS_VER="Ubuntu20"
-    elif [ $(lsb_release -c | grep Codename | awk '{print $2}') == 'focal' ] ;then 
+    elif [ $(lsb_release -c | grep Codename | awk '{print $2}') == 'jammy' ] ;then
+        OS_VER="Ubuntu22"
+    elif [ $(lsb_release -c | grep Codename | awk '{print $2}') == 'noble' ] ;then
         OS_VER="Ubuntu24"
+
     fi 
 else
     echo "Script doesn't support or verify this OS type/version"
@@ -67,8 +70,9 @@ fi
 # Check config cmdlog
 echo "Check old cmdlog config"
 if [[ -f "/var/log/cmdlog.log" ]]; then 
-    echo "Server have been config CMD log before, Please check your config"
-    exit 1;
+    echo "Server have been config CMD log before, Reinstall cmd log"
+    rm -fr /var/log/cmdlog.log
+#    exit 1;
 fi 
 
 # Config for current user 
@@ -116,8 +120,12 @@ fi
 echo "Config rsyslog"
 mv /etc/rsyslog.{conf,conf.bk}
 curl -o /etc/rsyslog.conf https://raw.githubusercontent.com/cokacolaa/cmdlog/refs/heads/main/config/"$OS_VER"_rsyslog.cnf > /dev/null 2>&1
+
+echo "$OS"
+echo "$OS_VER"
+
+
 systemctl restart rsyslog.service > /dev/null 2>&1 || service rsyslog restart > /dev/null 2>&1
 source ~/.bashrc
-
 echo "DONE - This task need be LOGOUT & LOGIN again to start logging cmd"
 exit
